@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Cherry - Mäng</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>🍒 AI Cherry</h1>
+            <div class="stats">
+                <span>Skoor: <span id="score">0</span></span>
+                <span>Elud: <span id="lives">3</span></span>
+                <span>Tase: <span id="level">1</span></span>
+            </div>
+        </div>
+
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+        <div class="controls">
+            <p><strong>Juhtimine:</strong></p>
+            <p>⬅️ Vasak / A - Liiguta vasakule | ➡️ Parem / D - Liiguta paremale</p>
+            <p>TÜHIK või Klõps - Hüppa alla järgmisele oksale</p>
+            <button id="startBtn" class="btn">Alusta mängu</button>
+            <button id="pauseBtn" class="btn" disabled>Paus</button>
+        </div>
+
+        <div id="gameOverScreen" class="modal hidden">
+            <div class="modal-content">
+                <h2 id="gameOverTitle">Mäng Läbi!</h2>
+                <p id="gameOverText">Sinu skoor: <span id="finalScore">0</span></p>
+                <button id="restartBtn" class="btn btn-large">Mängi Uuesti</button>
+            </div>
+        </div>
+
+        <div id="pauseScreen" class="modal hidden">
+            <div class="modal-content">
+                <h2>Paus</h2>
+                <button id="resumeBtn" class="btn btn-large">Jätka Mängu</button>
+                <button id="quitBtn" class="btn btn-large">Väljumine Menüüsse</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
