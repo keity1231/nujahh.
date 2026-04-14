@@ -3,45 +3,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Cherry - Mäng</title>
+    <title>Minu Farm</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="game-container">
         <div class="game-header">
-            <h1>🍒 AI Cherry</h1>
-            <div class="stats">
-                <span>Skoor: <span id="score">0</span></span>
-                <span>Elud: <span id="lives">3</span></span>
-                <span>Tase: <span id="level">1</span></span>
+            <h1>🌾 Minu Farm 🌾</h1>
+            <div class="stats-bar">
+                <div class="stat">
+                    <span class="label">Tase:</span>
+                    <span class="value"><span id="level">1</span></span>
+                </div>
+                <div class="stat">
+                    <span class="label">Raha:</span>
+                    <span class="value">€<span id="money">100</span></span>
+                </div>
+                <div class="stat">
+                    <span class="label">Päev:</span>
+                    <span class="value"><span id="day">1</span></span>
+                </div>
+                <div class="stat">
+                    <span class="label">Kanaid:</span>
+                    <span class="value"><span id="chickenCount">2</span></span>
+                </div>
+                <div class="stat">
+                    <span class="label">Lehmi:</span>
+                    <span class="value"><span id="cowCount">2</span></span>
+                </div>
+                <div class="stat">
+                    <span class="label">Lambaid:</span>
+                    <span class="value"><span id="sheepCount">2</span></span>
+                </div>
             </div>
         </div>
 
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <div class="main-content">
+            <!-- Farm Display -->
+            <div class="farm-section">
+                <h2>🏡 Teie Farm</h2>
+                <canvas id="farmCanvas" width="600" height="400"></canvas>
+                <div class="animal-status">
+                    <h3>Loomade seisund:</h3>
+                    <div id="animalStatus" class="status-list"></div>
+                </div>
+            </div>
 
-        <div class="controls">
-            <p><strong>Juhtimine:</strong></p>
-            <p>⬅️ Vasak / A - Liiguta vasakule | ➡️ Parem / D - Liiguta paremale</p>
-            <p>TÜHIK või Klõps - Hüppa alla järgmisele oksale</p>
-            <button id="startBtn" class="btn">Alusta mängu</button>
-            <button id="pauseBtn" class="btn" disabled>Paus</button>
-        </div>
+            <!-- Game Menu -->
+            <div class="menu-section">
+                <div class="menu-tabs">
+                    <button class="tab-btn active" data-tab="shop">🛍️ Pood</button>
+                    <button class="tab-btn" data-tab="market">💰 Turg</button>
+                    <button class="tab-btn" data-tab="process">⚙️ Töötlemine</button>
+                    <button class="tab-btn" data-tab="inventory">📦 Varad</button>
+                    <button class="tab-btn" data-tab="help">❓ Abi</button>
+                </div>
 
-        <div id="gameOverScreen" class="modal hidden">
-            <div class="modal-content">
-                <h2 id="gameOverTitle">Mäng Läbi!</h2>
-                <p id="gameOverText">Sinu skoor: <span id="finalScore">0</span></p>
-                <button id="restartBtn" class="btn btn-large">Mängi Uuesti</button>
+                <!-- Shop Tab -->
+                <div class="tab-content active" id="shop-tab">
+                    <h3>Osta toidut, loomi ja tööriistu</h3>
+                    <div class="shop-grid">
+                        <div class="shop-item" data-buy="chicken-food">
+                            <div class="item-icon">🌽</div>
+                            <div class="item-name">Kanade toit</div>
+                            <div class="item-price">€5</div>
+                            <div class="item-buttons">
+                                <button class="buy-btn">Osta</button>
+                                <button class="feed-btn" data-feed="chicken">Sööda</button>
+                            </div>
+                        </div>
+                        <div class="shop-item" data-buy="cow-food">
+                            <div class="item-icon">🌾</div>
+                            <div class="item-name">Lehmade toit</div>
+                            <div class="item-price">€8</div>
+                            <div class="item-buttons">
+                                <button class="buy-btn">Osta</button>
+                                <button class="feed-btn" data-feed="cow">Sööda</button>
+                            </div>
+                        </div>
+                        <div class="shop-item" data-buy="sheep-food">
+                            <div class="item-icon">🥬</div>
+                            <div class="item-name">Lammaste toit</div>
+                            <div class="item-price">€6</div>
+                            <div class="item-buttons">
+                                <button class="buy-btn">Osta</button>
+                                <button class="feed-btn" data-feed="sheep">Sööda</button>
+                            </div>
+                        </div>
+                        <div class="shop-item" data-buy="chicken">
+                            <div class="item-icon">🐔</div>
+                            <div class="item-name">Uus kana</div>
+                            <div class="item-price">€30</div>
+                            <button class="buy-btn">Osta</button>
+                        </div>
+                        <div class="shop-item" data-buy="cow">
+                            <div class="item-icon">🐄</div>
+                            <div class="item-name">Uus lehm</div>
+                            <div class="item-price">€50</div>
+                            <button class="buy-btn">Osta</button>
+                        </div>
+                        <div class="shop-item" data-buy="sheep">
+                            <div class="item-icon">🐑</div>
+                            <div class="item-name">Uus lammas</div>
+                            <div class="item-price">€40</div>
+                            <button class="buy-btn">Osta</button>
+                        </div>
+                        <div class="shop-item" data-buy="chicken-coop">
+                            <div class="item-icon">🏠</div>
+                            <div class="item-name">Kanala</div>
+                            <div class="item-price">€100</div>
+                            <button class="buy-btn">Osta</button>
+                        </div>
+                        <div class="shop-item" data-buy="cow-barn">
+                            <div class="item-icon">🏠</div>
+                            <div class="item-name">Lehmala</div>
+                            <div class="item-price">€150</div>
+                            <button class="buy-btn">Osta</button>
+                        </div>
+                        <div class="shop-item" data-buy="sheep-pen">
+                            <div class="item-icon">🏠</div>
+                            <div class="item-name">Lammaste puur</div>
+                            <div class="item-price">€120</div>
+                            <button class="buy-btn">Osta</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Market Tab -->
+                <div class="tab-content" id="market-tab">
+                    <h3>Müü oma farmitooteid</h3>
+                    <div class="market-grid">
+                        <div class="market-item">
+                            <div class="item-icon">🥚</div>
+                            <div class="item-name">Munad</div>
+                            <div class="item-info">Saadud: <span id="eggCount">0</span></div>
+                            <div class="item-price">€3 tk</div>
+                            <button class="sell-btn" data-sell="eggs">Müü kõik</button>
+                        </div>
+                        <div class="market-item">
+                            <div class="item-icon">🥛</div>
+                            <div class="item-name">Piim</div>
+                            <div class="item-info">Saadud: <span id="milkCount">0</span> L</div>
+                            <div class="item-price">€4 L</div>
+                            <button class="sell-btn" data-sell="milk">Müü kõik</button>
+                        </div>
+                        <div class="market-item">
+                            <div class="item-icon">🧙</div>
+                            <div class="item-name">Villa</div>
+                            <div class="item-info">Saadud: <span id="woolCount">0</span> kg</div>
+                            <div class="item-price">€5 kg</div>
+                            <button class="sell-btn" data-sell="wool">Müü kõik</button>
+                        </div>
+                        <div class="market-item">
+                            <div class="item-icon">🧀</div>
+                            <div class="item-name">Juust</div>
+                            <div class="item-info">Saadud: <span id="cheeseCount">0</span> kg</div>
+                            <div class="item-price">€15 kg</div>
+                            <button class="sell-btn" data-sell="cheese">Müü kõik</button>
+                        </div>
+                        <div class="market-item">
+                            <div class="item-icon">🍳</div>
+                            <div class="item-name">Omlett</div>
+                            <div class="item-info">Saadud: <span id="omelettCount">0</span></div>
+                            <div class="item-price">€12 tk</div>
+                            <button class="sell-btn" data-sell="omelette">Müü kõik</button>
+                        </div>
+                        <div class="market-item">
+                            <div class="item-icon">🧦</div>
+                            <div class="item-name">Sukkasid</div>
+                            <div class="item-info">Saadud: <span id="socksCount">0</span> paari</div>
+                            <div class="item-price">€20 paar</div>
+                            <button class="sell-btn" data-sell="socks">Müü kõik</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Processing Tab -->
+                <div class="tab-content" id="process-tab">
+                    <h3>Töötlege oma tooteid paremaks väärtuseks!</h3>
+                    <div class="process-grid">
+                        <div class="process-item">
+                            <div class="item-icon">🥛</div>
+                            <div class="recipe">
+                                <div class="recipe-input">2L piim</div>
+                                <div class="recipe-arrow">→</div>
+                                <div class="recipe-output">1kg juust 🧀</div>
+                            </div>
+                            <div class="item-info">Teil on: <span id="proc-milkCount">0</span>L</div>
+                            <button class="process-btn" data-process="milk-to-cheese">Töötle!</button>
+                        </div>
+                        <div class="process-item">
+                            <div class="item-icon">🥚</div>
+                            <div class="recipe">
+                                <div class="recipe-input">3 muna</div>
+                                <div class="recipe-arrow">→</div>
+                                <div class="recipe-output">1 omlett 🍳</div>
+                            </div>
+                            <div class="item-info">Teil on: <span id="proc-eggsCount">0</span></div>
+                            <button class="process-btn" data-process="eggs-to-omelette">Töötle!</button>
+                        </div>
+                        <div class="process-item">
+                            <div class="item-icon">🧙</div>
+                            <div class="recipe">
+                                <div class="recipe-input">1.5kg villa</div>
+                                <div class="recipe-arrow">→</div>
+                                <div class="recipe-output">1 paar sukkasid 🧦</div>
+                            </div>
+                            <div class="item-info">Teil on: <span id="proc-woolCount">0</span>kg</div>
+                            <button class="process-btn" data-process="wool-to-socks">Töötle!</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inventory Tab -->
+                <div class="tab-content" id="inventory-tab">
+                    <h3>Sinu varad</h3>
+                    <div class="inventory-list">
+                        <div class="inv-item">
+                            <span>💰 Raha:</span>
+                            <strong>€<span id="inv-money">100</span></strong>
+                        </div>
+                        <div class="inv-item">
+                            <span>🐔 Kanaid:</span>
+                            <strong><span id="inv-chickens">2</span></strong>
+                        </div>
+                        <div class="inv-item">
+                            <span>🐄 Lehmi:</span>
+                            <strong><span id="inv-cows">2</span></strong>
+                        </div>
+                        <div class="inv-item">
+                            <span>🐑 Lambaid:</span>
+                            <strong><span id="inv-sheep">2</span></strong>
+                        </div>
+                        <div class="inv-item">
+                            <span>🌽 Kanade toit:</span>
+                            <strong><span id="inv-chicken-food">0</span></strong>
+                        </div>
+                        <div class="inv-item">
+                            <span>🌾 Lehmade toit:</span>
+                            <strong><span id="inv-cow-food">0</span></strong>
+                        </div>
+                        <div class="inv-item">
+                            <span>🥬 Lammaste toit:</span>
+                            <strong><span id="inv-sheep-food">0</span></strong>
+                        </div>
+                        <div class="inv-item">
+                            <span>🥚 Mune:</span>
+                            <strong><span id="inv-eggs">0</span></strong>
+                        </div>
+                        <div class="inv-item">
+                            <span>🥛 Piima (L):</span>
+                            <strong><span id="inv-milk">0</span></strong>
+                        </div>
+                        <div class="inv-item">
+                            <span>🧙 Villa (kg):</span>
+                            <strong><span id="inv-wool">0</span></strong>
+                        </div>
+                        <div class="inv-item">
+                            <span>🧀 Juust (kg):</span>
+                            <strong><span id="inv-cheese">0</span></strong>
+                        </div>
+                        <div class="inv-item">
+                            <span>🍳 Omlett:</span>
+                            <strong><span id="inv-omelette">0</span></strong>
+                        </div>
+                        <div class="inv-item">
+                            <span>🧦 Sukkasid (paar):</span>
+                            <strong><span id="inv-socks">0</span></strong>
+                        </div>
+                </div>
+
+                <!-- Help Tab -->
+                <div class="tab-content" id="help-tab">
+                    <h3>Kuidas mängu mängida</h3>
+                    <div class="help-text">
+                        <p><strong>🐔 Kanad:</strong> Annavad mune (€3 või 12€ omlet). Vajavad iga päev 1 toidukogust kanade kohta.</p>
+                        <p><strong>🐄 Lehmad:</strong> Annavad piima (€4/L või 15€ juust). Vajavad iga päev 1 toidukogust lehmade kohta.</p>
+                        <p><strong>🐑 Lambad:</strong> Annavad villa (€5/kg või 20€ sukkasid). Vajavad iga päev 1 toidukogust lammaste kohta.</p>
+                        
+                        <p><strong>🏠 Majad ja puurid:</strong> Suurendavad loomade maksimaalset arvu (+5 kohta).</p>
+                        <p><strong>📈 Tasemed:</strong> Tõuseb iga 1000€ peale. Uued tasemed avavad uusi võimalusi.</p>
+                        
+                        <p><strong>⚙️ Töötlemine:</strong> Saad kasvada oma toote väärtust!</p>
+                        <ul>
+                            <li>2L piim → 1kg juust (€15 asemel €8)</li>
+                            <li>3 muna → 1 omlett (€12 asemel €9)</li>
+                            <li>1.5kg villa → paar sukkasid (€20 asemel €7.50)</li>
+                        </ul>
+                        
+                        <p><strong>📋 Strateegia:</strong></p>
+                        <ul>
+                            <li>Iga päev saad €300 päevaraha - osta toidust!</li>
+                            <li>Sööda loomi iga päev, muidu nad ei tooda ja võivad surra</li>
+                            <li>Müü farmitooteid turule ja hangi kasumit</li>
+                            <li>Töötlev tooteid paremate hindade saamiseks</li>
+                            <li>Osta uusi loomi ja majasid farmi laiendamiseks</li>
+                            <li>Suurenda farmi võimalikult suureks!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="nextDayBtn" class="primary-btn">⏭️ Järgmine päev</button>
+                </div>
             </div>
         </div>
 
-        <div id="pauseScreen" class="modal hidden">
-            <div class="modal-content">
-                <h2>Paus</h2>
-                <button id="resumeBtn" class="btn btn-large">Jätka Mängu</button>
-                <button id="quitBtn" class="btn btn-large">Väljumine Menüüsse</button>
-            </div>
-        </div>
+        <!-- Notification -->
+        <div id="notification" class="notification"></div>
     </div>
 
     <script src="script.js"></script>
